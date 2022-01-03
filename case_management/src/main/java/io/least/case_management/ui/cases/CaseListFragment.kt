@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.DividerItemDecoration
 import io.least.case_management.ServiceLocator
 import io.least.case_management.databinding.CaseListBinding
 import io.least.case_management.ui.CaseListFragmentFactory
@@ -20,6 +21,7 @@ import io.least.case_management.viewmodel.CaseListConfig
 import io.least.connector.createWithFactory
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+
 
 private const val TAG = "CaseListFragmentTag"
 private const val KEY_CONFIG = "CaseListFragmentTag"
@@ -52,7 +54,11 @@ class CaseListFragment(private val castConfig: CaseListConfig) : Fragment() {
 
     private val viewModel: CaseListViewModel by viewModels {
         createWithFactory {
-            CaseListViewModel(ServiceLocator.getXMPPTCPConnection(), ServiceLocator.getCaseListRepository(), castConfig)
+            CaseListViewModel(
+                ServiceLocator.getXMPPTCPConnection(),
+                ServiceLocator.getCaseListRepository(),
+                castConfig
+            )
         }
     }
 
@@ -69,6 +75,11 @@ class CaseListFragment(private val castConfig: CaseListConfig) : Fragment() {
             viewModel.createNewCase()
         }
         binding.recyclerView.adapter = caseListAdapter
+        binding.recyclerView.adapter = caseListAdapter
+        binding.recyclerView.addItemDecoration(
+            DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
+        )
+
         // Start a coroutine in the lifecycle scope
         lifecycleScope.launch {
             // repeatOnLifecycle launches the block in a new coroutine every time the
@@ -108,6 +119,9 @@ class CaseListFragment(private val castConfig: CaseListConfig) : Fragment() {
                         CaseListUiState.Connected -> {
                             binding.textViewStatus.text = "CONNECTED"
                             binding.textViewStatus.setTextColor(Color.GREEN)
+
+                            binding.recyclerView.visibility = View.VISIBLE
+                            binding.progressLoader.visibility = View.GONE
                         }
                     }
                 }

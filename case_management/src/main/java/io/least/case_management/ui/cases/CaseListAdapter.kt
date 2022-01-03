@@ -39,7 +39,7 @@ class CaseListAdapter(private val onFooterClick: () -> Unit) :
             is CaseItemViewHolder -> {
                 // Get element from your dataset at this position and replace the
                 // contents of the view with that element
-                viewHolder.textView.text = getItem(position).lastMessage.from
+                viewHolder.textView.text = getItem(position).name
             }
         }
     }

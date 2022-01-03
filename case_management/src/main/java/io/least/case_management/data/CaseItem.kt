@@ -2,6 +2,7 @@ package io.least.case_management.data
 
 data class CaseItem(
     val id: String,
+    val name: String,
     val lastMessage: Message,
     val hasUnread: Boolean
 )
