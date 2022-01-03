@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">RateMe</string>
+    <string name="header_initial">Howdy! How was your experience with us so far?</string>
+    <string name="header_negative_submitted">We are sorry you have experienced not the best of our service. Can you share your experience and how can we make the service better?</string>
+    <string name="open_market">Can you rate us on the Market Store?</string>
+    <!--    Negative Feedback submit    -->
+    <string name="negative_rate_feedback_submit">Submit</string>
+</resources>
