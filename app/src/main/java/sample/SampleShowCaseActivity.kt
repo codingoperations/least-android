@@ -6,7 +6,11 @@ import io.least.case_management.ui.cases.CaseListFragment
 import io.least.case_management.viewmodel.CaseListConfig
 import io.least.collector.DeviceDataCollector
 import io.least.connector.RestConnector
-import io.least.ui.RateMeFragment
+import io.least.data.RateExperienceConfig
+import io.least.ui.app.RateAppFragment
+import io.least.ui.experience.RateExperienceFragment
+import io.least.ui.experience.RateExperienceFragmentFactory
+import io.least.viewmodel.RateMeConfig
 import io.sample.R
 import io.sample.databinding.MainActivityBinding
 
@@ -22,19 +26,8 @@ class SampleShowCaseActivity : AppCompatActivity() {
         _binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.buttonRateMe.setOnClickListener {
-            RateMeFragment.show(
-                supportFragmentManager,
-                classLoader,
-                RestConnector(DeviceDataCollector<String>(), "")
-            )
-        }
-        binding.buttonCaseManagement.setOnClickListener {
-            CaseListFragment.show(
-                supportFragmentManager,
-                R.id.fragmentContainer,
-                classLoader, CaseListConfig("https://example.com/v1/case-list", "profile-id-beka")
-            )
-        }
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fragmentContainer, MainFragment())
+            .commit()
     }
 }

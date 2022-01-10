@@ -8,14 +8,16 @@ import io.least.connector.Connector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class RateMeViewModel (private val connector: Connector<String>?): ViewModel() {
+class RateMeViewModel (
+    private val config: RateMeConfig,
+    private val connector: Connector<String>?
+): ViewModel() {
 
     // Backing property to avoid state updates from other classes
     private val _uiState = MutableStateFlow<RateMeUiState>(RateMeUiState.Initial)
 
     // The UI collects from this StateFlow to get its state updates
     val uiState: StateFlow<RateMeUiState> = _uiState
-    var config: RateMeConfig = RateMeConfig()
 
     fun onFeedbackSubmit(text: String) {
         connector?.create(text)

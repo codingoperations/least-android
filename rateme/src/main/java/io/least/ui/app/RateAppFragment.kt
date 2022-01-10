@@ -1,4 +1,4 @@
-package io.least.ui
+package io.least.ui.app
 
 import android.app.Dialog
 import android.os.Bundle
@@ -13,19 +13,23 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.*
 import io.least.connector.Connector
 import io.least.connector.createWithFactory
+import io.least.ui.showKeyboard
 import io.least.viewmodel.RateMeConfig
 import io.least.viewmodel.RateMeUiState
 import io.least.viewmodel.RateMeViewModel
 import io.sample.least.R
-import io.sample.least.databinding.FragmentRatemeBinding
+import io.sample.least.databinding.FragmentRatemeAppBinding
+import io.sample.least.databinding.FragmentRatemeExpBinding
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
-private const val KEY_CONFIG = "config-key"
-const val TAG = "RateMeFragment"
+private const val TAG = "RateMeFragment"
 
-class RateMeFragment(private val connector: Connector<String>?) : DialogFragment() {
+class RateAppFragment(
+    private val config: RateMeConfig,
+    private val connector: Connector<String>?
+) : DialogFragment() {
 
     companion object {
 
@@ -33,26 +37,25 @@ class RateMeFragment(private val connector: Connector<String>?) : DialogFragment
             supportFragmentManager: FragmentManager,
             classLoader: ClassLoader,
             connector: Connector<String>?,
-            config: RateMeConfig? = null
+            config: RateMeConfig
         ) {
-            supportFragmentManager.fragmentFactory = RatemeFragmentFactory(connector)
+            supportFragmentManager.fragmentFactory = RatemeFragmentFactory(config, connector)
             val fragment: DialogFragment = supportFragmentManager.fragmentFactory.instantiate(
                 classLoader,
-                RateMeFragment::class.java.name
+                RateAppFragment::class.java.name
             ) as DialogFragment
-            fragment.arguments = Bundle().apply { putParcelable(KEY_CONFIG, config) }
             fragment.show(supportFragmentManager, TAG)
         }
     }
 
-    private var _binding: FragmentRatemeBinding? = null
+    private var _binding: FragmentRatemeAppBinding? = null
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
     private val viewModel: RateMeViewModel by viewModels {
         createWithFactory {
-            RateMeViewModel(connector)
+            RateMeViewModel(config, connector)
         }
     }
 
@@ -98,7 +101,7 @@ class RateMeFragment(private val connector: Connector<String>?) : DialogFragment
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRatemeBinding.inflate(inflater, container, false)
+        _binding = FragmentRatemeAppBinding.inflate(inflater, container, false)
         binding.ratingBar.setOnRatingBarChangeListener { _, rating, fromUser ->
             if (!fromUser) return@setOnRatingBarChangeListener
             // TODO Could requireActivity() throw an exception?

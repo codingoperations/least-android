@@ -23,7 +23,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
-private const val TAG = "CaseListFragmentTag"
 private const val KEY_CONFIG = "CaseListFragmentTag"
 
 class CaseListFragment(private val castConfig: CaseListConfig) : Fragment() {
