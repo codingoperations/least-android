@@ -41,9 +41,19 @@ class RateExperienceViewModel(
             repository.publishRateResults(RateExperienceResult(selectedTags, rating.toInt(), text))
         }
     }
+
+    fun onRateSelected(rating: Float) {
+        for (it in config.valueReaction) {
+            if (rating.toInt() <= it.first){
+                _uiState.value = RateExperienceState.RateSelected(it.second)
+                break
+            }
+        }
+    }
 }
 
 sealed class RateExperienceState {
     object ConfigLoading : RateExperienceState()
+    class RateSelected(val reaction: String) : RateExperienceState()
     class ConfigLoaded(val config: RateExperienceConfig) : RateExperienceState()
 }

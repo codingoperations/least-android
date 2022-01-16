@@ -6,15 +6,16 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 
-
 object ServiceLocator {
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl("https://api.least.com/")
-        .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
-        .build()
+    private fun retrofitInstance(hostUrl: String = "https://api.least.com/"): Retrofit {
+          return Retrofit.Builder()
+              .baseUrl(hostUrl)
+              .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+              .build()
+    }
 
-    fun getHttpClient(): HttpClient {
-          return retrofit.create(HttpClient::class.java)
+    fun getHttpClient(hostUrl: String): HttpClient {
+          return retrofitInstance(hostUrl).create(HttpClient::class.java)
     }
 }

@@ -9,7 +9,6 @@ import io.least.case_management.ui.cases.CaseListFragment
 import io.least.case_management.viewmodel.CaseListConfig
 import io.least.collector.DeviceDataCollector
 import io.least.connector.RestConnector
-import io.least.core.BuildConfig
 import io.least.data.RateExperienceConfig
 import io.least.data.Tag
 import io.least.ui.app.RateAppFragment
@@ -39,7 +38,7 @@ class MainFragment : Fragment() {
                 RateMeConfig(minPositiveRate = 3.0f)
             )
         }
-        val hostUrl = "https://codingops-publisher.herokuapp.com"
+        
         binding.buttonRateExperience.setOnClickListener {
             RateExperienceFragment.show(
                 parentFragmentManager,
@@ -48,17 +47,19 @@ class MainFragment : Fragment() {
                 RateExperienceConfig(
                     tags = listOf(Tag("id1", "tag1"), Tag("id2", "tag2"), Tag("id3", "tag3")),
                     appId = "myAppId",
-                    numberOfStars = 7,
+                    numberOfStars = 3,
                     valueReaction = listOf(
-                        Pair(2, "too bad :("),
-                        Pair(6, "Nice ;)"),
-                        Pair(8, "You shouldn't see it")
+                        Pair(1, "too bad :("),
+                        Pair(2, "Nice ;)"),
+                        Pair(8, "Great!")
                     ),
                     title = "MY TITLE",
                     postSubmitTitle = "It is post submit Title",
                     postSubmitText = "It is post submit BODY TEXT",
                     fetchConfigFromServer = false
-                )
+                ),
+                "https://codingops-publisher.herokuapp.com",
+                View.inflate(requireContext(), R.layout.custom_view, null)
             )
         }
         binding.buttonCaseManagement.setOnClickListener {

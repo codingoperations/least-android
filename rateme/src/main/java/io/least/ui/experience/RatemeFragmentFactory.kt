@@ -10,12 +10,13 @@ import io.least.data.RateExperienceResult
 
 class RateExperienceFragmentFactory(
     private val config: RateExperienceConfig,
+    private val hostUrl: String,
     private val customView: View?
 ) : FragmentFactory() {
     override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
         Log.d("FragmentFactory", "instantiate(...)")
         return when(className) {
-            RateExperienceFragment::class.java.name -> RateExperienceFragment(config, customView)
+            RateExperienceFragment::class.java.name -> RateExperienceFragment(config, hostUrl, customView)
             else -> super.instantiate(classLoader, className)
         }
     }

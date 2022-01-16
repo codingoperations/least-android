@@ -14,11 +14,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.chip.Chip
 import io.least.ServiceLocator
-import io.least.connector.Connector
+import io.least.collector.DeviceDataCollector
 import io.least.connector.createWithFactory
 import io.least.data.RateExperienceConfig
 import io.least.data.RateExperienceConfigRepo
-import io.least.data.RateExperienceResult
 import io.least.data.Tag
 import io.least.viewmodel.RateExperienceState
 import io.least.viewmodel.RateExperienceViewModel
@@ -28,6 +27,7 @@ import kotlinx.coroutines.launch
 
 class RateExperienceFragment(
     private val config: RateExperienceConfig,
+    private val hostUrl: String,
     private val customView: View?,
 ) : Fragment() {
 
@@ -38,10 +38,12 @@ class RateExperienceFragment(
             @IdRes containerId: Int,
             classLoader: ClassLoader,
             config: RateExperienceConfig,
+            hostUrl: String,
             customView: View? = null,
         ) {
             supportFragmentManager.fragmentFactory = RateExperienceFragmentFactory(
                 config,
+                hostUrl,
                 customView
             )
             val fragment = supportFragmentManager.fragmentFactory.instantiate(
@@ -63,7 +65,7 @@ class RateExperienceFragment(
         createWithFactory {
             RateExperienceViewModel(
                 config,
-                RateExperienceConfigRepo(config.appId, ServiceLocator.getHttpClient())
+                RateExperienceConfigRepo(config.appId, ServiceLocator.getHttpClient(hostUrl), DeviceDataCollector())
             )
         }
     }
@@ -88,6 +90,9 @@ class RateExperienceFragment(
                         }
                         RateExperienceState.ConfigLoading -> {
                             binding.viewGroupLoading.visibility = View.VISIBLE
+                        }
+                        is RateExperienceState.RateSelected -> {
+                            binding.textViewReaction.text = uiState.reaction
                         }
                     }
                 }
@@ -129,6 +134,11 @@ class RateExperienceFragment(
                 isClickable = true
                 isFocusable = true
             })
+        }
+        binding.ratingBar.setOnRatingBarChangeListener { _, rating, fromUser ->
+            if (fromUser) {
+                viewModel.onRateSelected(rating)
+            }
         }
     }
 
