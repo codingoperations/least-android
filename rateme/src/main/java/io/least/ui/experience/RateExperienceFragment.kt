@@ -18,20 +18,17 @@ import io.least.connector.Connector
 import io.least.connector.createWithFactory
 import io.least.data.RateExperienceConfig
 import io.least.data.RateExperienceConfigRepo
+import io.least.data.RateExperienceResult
 import io.least.data.Tag
 import io.least.viewmodel.RateExperienceState
 import io.least.viewmodel.RateExperienceViewModel
-import io.sample.least.R
 import io.sample.least.databinding.FragmentRatemeExpBinding
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-
-private const val TAG = "RateMeFragment"
-
 class RateExperienceFragment(
     private val config: RateExperienceConfig,
-    private val connector: Connector<String>?
+    private val customView: View?,
 ) : Fragment() {
 
     companion object {
@@ -40,12 +37,12 @@ class RateExperienceFragment(
             supportFragmentManager: FragmentManager,
             @IdRes containerId: Int,
             classLoader: ClassLoader,
-            connector: Connector<String>?,
             config: RateExperienceConfig,
+            customView: View? = null,
         ) {
             supportFragmentManager.fragmentFactory = RateExperienceFragmentFactory(
                 config,
-                connector
+                customView
             )
             val fragment = supportFragmentManager.fragmentFactory.instantiate(
                 classLoader,
@@ -66,8 +63,7 @@ class RateExperienceFragment(
         createWithFactory {
             RateExperienceViewModel(
                 config,
-                RateExperienceConfigRepo(config.appId, ServiceLocator.getHttpClient()),
-                connector
+                RateExperienceConfigRepo(config.appId, ServiceLocator.getHttpClient())
             )
         }
     }
@@ -115,6 +111,7 @@ class RateExperienceFragment(
                 }
             )
         }
+        customView?.let { binding.customViewHolder.addView(it) }
         return binding.root
     }
 

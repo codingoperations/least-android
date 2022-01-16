@@ -9,6 +9,7 @@ import io.least.case_management.ui.cases.CaseListFragment
 import io.least.case_management.viewmodel.CaseListConfig
 import io.least.collector.DeviceDataCollector
 import io.least.connector.RestConnector
+import io.least.core.BuildConfig
 import io.least.data.RateExperienceConfig
 import io.least.data.Tag
 import io.least.ui.app.RateAppFragment
@@ -16,7 +17,6 @@ import io.least.ui.experience.RateExperienceFragment
 import io.least.viewmodel.RateMeConfig
 import io.sample.R
 import io.sample.databinding.FragmentMainBinding
-import io.sample.least.databinding.FragmentRatemeAppBinding
 
 class MainFragment : Fragment() {
 
@@ -39,12 +39,12 @@ class MainFragment : Fragment() {
                 RateMeConfig(minPositiveRate = 3.0f)
             )
         }
+        val hostUrl = "https://codingops-publisher.herokuapp.com"
         binding.buttonRateExperience.setOnClickListener {
             RateExperienceFragment.show(
                 parentFragmentManager,
                 R.id.fragmentContainer,
                 requireActivity().classLoader,
-                RestConnector(DeviceDataCollector(), ""),
                 RateExperienceConfig(
                     tags = listOf(Tag("id1", "tag1"), Tag("id2", "tag2"), Tag("id3", "tag3")),
                     appId = "myAppId",

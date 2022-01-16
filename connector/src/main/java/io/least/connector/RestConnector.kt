@@ -10,7 +10,7 @@ import okhttp3.Request
 import okhttp3.RequestBody
 
 
-class RestConnector<T>(
+open class RestConnector<T>(
     private val dataCollector: DeviceDataCollector<T>,
     private val url: String,
 ) : Connector<T> {

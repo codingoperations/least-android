@@ -3,18 +3,18 @@ package io.least.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.least.connector.Connector
 import io.least.data.RateExperienceConfig
 import io.least.data.RateExperienceConfigRepo
+import io.least.data.RateExperienceResult
 import io.least.data.Tag
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class RateExperienceViewModel (
+class RateExperienceViewModel(
     @Volatile private var config: RateExperienceConfig,
-    private val repository: RateExperienceConfigRepo,
-    private val connector: Connector<String>?
+    private val repository: RateExperienceConfigRepo
 ): ViewModel() {
 
     // Backing property to avoid state updates from other classes
@@ -36,8 +36,10 @@ class RateExperienceViewModel (
     }
 
     fun onFeedbackSubmit(text: String, rating: Float, selectedTags: List<Tag>) {
-//        connector?.create(text)
         Log.d(this.javaClass.simpleName, "Creating a case --> $text")
+        viewModelScope.launch {
+            repository.publishRateResults(RateExperienceResult(selectedTags, rating.toInt(), text))
+        }
     }
 }
 
