@@ -9,7 +9,9 @@ import io.least.case_management.ui.cases.CaseListFragment
 import io.least.case_management.viewmodel.CaseListConfig
 import io.least.collector.DeviceDataCollector
 import io.least.connector.RestConnector
+import io.least.data.LabelValue
 import io.least.data.RateExperienceConfig
+import io.least.data.RateExperienceServerConfig
 import io.least.data.Tag
 import io.least.ui.app.RateAppFragment
 import io.least.ui.experience.RateExperienceFragment
@@ -46,19 +48,17 @@ class MainFragment : Fragment() {
                 requireActivity().classLoader,
                 RateExperienceConfig(
                     tags = listOf(Tag("id1", "tag1"), Tag("id2", "tag2"), Tag("id3", "tag3")),
-                    appId = "myAppId",
-                    numberOfStars = 3,
+                    numberOfStars = 10,
                     valueReaction = listOf(
-                        Pair(1, "too bad :("),
-                        Pair(2, "Nice ;)"),
-                        Pair(8, "Great!")
+                        LabelValue(1, "too bad :("),
+                        LabelValue(2, "Nice ;)"),
+                        LabelValue(8, "Great!")
                     ),
                     title = "MY TITLE",
                     postSubmitTitle = "It is post submit Title",
                     postSubmitText = "It is post submit BODY TEXT",
-                    fetchConfigFromServer = false
                 ),
-                "https://codingops-publisher.herokuapp.com",
+                RateExperienceServerConfig("https://codingops-publisher.herokuapp.com",appId = "myAppId", true, false),
                 View.inflate(requireContext(), R.layout.custom_view, null)
             )
         }

@@ -5,4 +5,7 @@
     <string name="open_market">Can you rate us on the Market Store?</string>
     <!--    Negative Feedback submit    -->
     <string name="negative_rate_feedback_submit">Submit</string>
+    <string name="submitting">Submitting...</string>
+    <string name="submitted">Success</string>
+    <string name="retry">Retry</string>
 </resources>

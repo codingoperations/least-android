@@ -1,12 +1,8 @@
 package io.least.case_management
 
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import io.least.case_management.data.CaseListRepository
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.json.Json
-import okhttp3.MediaType
+import io.least.core.ServiceLocator
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
-import retrofit2.Retrofit
 
 
 object ServiceLocator {
@@ -20,13 +16,7 @@ object ServiceLocator {
     }
 
 
-    @OptIn(ExperimentalSerializationApi::class)
-    fun getCaseListRepository(): CaseListRepository {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.least.com/")
-            .addConverterFactory(Json.asConverterFactory(MediaType.get("application/json")))
-            .build()
-
-        return retrofit.create(CaseListRepository::class.java)
+    fun getCaseListRepository(hostUrl: String): CaseListRepository {
+        return ServiceLocator.retrofitInstance(hostUrl).create(CaseListRepository::class.java)
     }
 }

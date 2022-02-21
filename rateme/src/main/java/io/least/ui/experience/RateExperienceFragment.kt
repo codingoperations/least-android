@@ -15,19 +15,18 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.chip.Chip
 import io.least.ServiceLocator
 import io.least.collector.DeviceDataCollector
-import io.least.connector.createWithFactory
-import io.least.data.RateExperienceConfig
-import io.least.data.RateExperienceConfigRepo
-import io.least.data.Tag
+import io.least.core.createWithFactory
+import io.least.data.*
+import io.least.rate.R
+import io.least.rate.databinding.FragmentRateExpBinding
 import io.least.viewmodel.RateExperienceState
 import io.least.viewmodel.RateExperienceViewModel
-import io.sample.least.databinding.FragmentRatemeExpBinding
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class RateExperienceFragment(
-    private val config: RateExperienceConfig,
-    private val hostUrl: String,
+    private val rateExperienceConfig: RateExperienceConfig,
+    private val serverConfig: RateExperienceServerConfig,
     private val customView: View?,
 ) : Fragment() {
 
@@ -37,13 +36,13 @@ class RateExperienceFragment(
             supportFragmentManager: FragmentManager,
             @IdRes containerId: Int,
             classLoader: ClassLoader,
-            config: RateExperienceConfig,
-            hostUrl: String,
+            rateExperienceConfig: RateExperienceConfig,
+            serverConfig: RateExperienceServerConfig,
             customView: View? = null,
         ) {
             supportFragmentManager.fragmentFactory = RateExperienceFragmentFactory(
-                config,
-                hostUrl,
+                rateExperienceConfig,
+                serverConfig,
                 customView
             )
             val fragment = supportFragmentManager.fragmentFactory.instantiate(
@@ -56,7 +55,7 @@ class RateExperienceFragment(
         }
     }
 
-    private var _binding: FragmentRatemeExpBinding? = null
+    private var _binding: FragmentRateExpBinding? = null
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
@@ -64,8 +63,9 @@ class RateExperienceFragment(
     private val viewModel: RateExperienceViewModel by viewModels {
         createWithFactory {
             RateExperienceViewModel(
-                config,
-                RateExperienceConfigRepo(config.appId, ServiceLocator.getHttpClient(hostUrl), DeviceDataCollector())
+                rateExperienceConfig,
+                serverConfig,
+                RateExperienceConfigRepo(serverConfig.appId, ServiceLocator.getHttpClient(serverConfig.hostUrl), DeviceDataCollector())
             )
         }
     }
@@ -94,6 +94,18 @@ class RateExperienceFragment(
                         is RateExperienceState.RateSelected -> {
                             binding.textViewReaction.text = uiState.reaction
                         }
+                        RateExperienceState.SubmissionError -> {
+                            binding.buttonSubmit.text = getString(R.string.retry)
+                            binding.buttonSubmit.isEnabled = true
+                        }
+                        RateExperienceState.SubmissionSuccess -> {
+                            binding.buttonSubmit.text = getString(R.string.submitted)
+                            binding.buttonSubmit.isEnabled = false
+                        }
+                        RateExperienceState.Submitting -> {
+                            binding.buttonSubmit.text = getString(R.string.submitted)
+                            binding.buttonSubmit.isEnabled = false
+                        }
                     }
                 }
             }
@@ -105,7 +117,7 @@ class RateExperienceFragment(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRatemeExpBinding.inflate(inflater, container, false)
+        _binding = FragmentRateExpBinding.inflate(inflater, container, false)
         binding.buttonSubmit.setOnClickListener {
             viewModel.onFeedbackSubmit(
                 binding.editFeedback.text.toString(),

@@ -7,7 +7,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import io.least.case_management.ServiceLocator
-import io.least.connector.createWithFactory
+import io.least.core.createWithFactory
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 

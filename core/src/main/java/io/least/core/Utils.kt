@@ -1,4 +1,4 @@
-package io.least.connector
+package io.least.core
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

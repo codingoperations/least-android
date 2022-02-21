@@ -18,14 +18,14 @@ import io.least.case_management.ServiceLocator
 import io.least.case_management.databinding.CaseListBinding
 import io.least.case_management.ui.CaseListFragmentFactory
 import io.least.case_management.viewmodel.CaseListConfig
-import io.least.connector.createWithFactory
+import io.least.core.createWithFactory
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
 private const val KEY_CONFIG = "CaseListFragmentTag"
 
-class CaseListFragment(private val castConfig: CaseListConfig) : Fragment() {
+class CaseListFragment(private val caseConfig: CaseListConfig) : Fragment() {
     companion object {
 
         fun show(
@@ -55,8 +55,8 @@ class CaseListFragment(private val castConfig: CaseListConfig) : Fragment() {
         createWithFactory {
             CaseListViewModel(
                 ServiceLocator.getXMPPTCPConnection(),
-                ServiceLocator.getCaseListRepository(),
-                castConfig
+                ServiceLocator.getCaseListRepository(caseConfig.serverUrl),
+                caseConfig
             )
         }
     }

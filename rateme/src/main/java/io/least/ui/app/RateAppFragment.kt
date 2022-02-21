@@ -12,14 +12,13 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.*
 import io.least.connector.Connector
-import io.least.connector.createWithFactory
+import io.least.core.createWithFactory
+import io.least.rate.R
+import io.least.rate.databinding.FragmentRatemeAppBinding
 import io.least.ui.showKeyboard
 import io.least.viewmodel.RateMeConfig
 import io.least.viewmodel.RateMeUiState
 import io.least.viewmodel.RateMeViewModel
-import io.sample.least.R
-import io.sample.least.databinding.FragmentRatemeAppBinding
-import io.sample.least.databinding.FragmentRatemeExpBinding
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
