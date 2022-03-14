@@ -18,7 +18,7 @@ import io.least.collector.DeviceDataCollector
 import io.least.core.createWithFactory
 import io.least.data.*
 import io.least.rate.R
-import io.least.rate.databinding.FragmentRateExpBinding
+import io.least.rate.databinding.RateExpFragmentBinding
 import io.least.viewmodel.RateExperienceState
 import io.least.viewmodel.RateExperienceViewModel
 import kotlinx.coroutines.flow.collect
@@ -51,11 +51,12 @@ class RateExperienceFragment(
             )
             supportFragmentManager.beginTransaction()
                 .add(containerId, fragment)
+                .addToBackStack(RateExperienceFragment::class.java.simpleName)
                 .commit()
         }
     }
 
-    private var _binding: FragmentRateExpBinding? = null
+    private var _binding: RateExpFragmentBinding? = null
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
@@ -95,16 +96,19 @@ class RateExperienceFragment(
                             binding.textViewReaction.text = uiState.reaction
                         }
                         RateExperienceState.SubmissionError -> {
-                            binding.buttonSubmit.text = getString(R.string.retry)
+                            binding.buttonSubmit.text = getString(R.string.rate_exp_retry)
                             binding.buttonSubmit.isEnabled = true
                         }
                         RateExperienceState.SubmissionSuccess -> {
-                            binding.buttonSubmit.text = getString(R.string.submitted)
+                            binding.buttonSubmit.text = getString(R.string.rate_exp_submitted)
                             binding.buttonSubmit.isEnabled = false
                         }
                         RateExperienceState.Submitting -> {
-                            binding.buttonSubmit.text = getString(R.string.submitted)
+                            binding.buttonSubmit.text = getString(R.string.rate_exp_submitted)
                             binding.buttonSubmit.isEnabled = false
+                        }
+                        RateExperienceState.ConfigLoadFailed -> {
+                            // TODO DO something
                         }
                     }
                 }
@@ -117,7 +121,7 @@ class RateExperienceFragment(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRateExpBinding.inflate(inflater, container, false)
+        _binding = RateExpFragmentBinding.inflate(inflater, container, false)
         binding.buttonSubmit.setOnClickListener {
             viewModel.onFeedbackSubmit(
                 binding.editFeedback.text.toString(),

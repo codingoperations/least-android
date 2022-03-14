@@ -74,7 +74,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/negative_rate_feedback_submit"
+        android:text="@string/rate_negative_rate_feedback_submit"
         tools:text="Send the feedback" />
 
     <androidx.constraintlayout.widget.Group

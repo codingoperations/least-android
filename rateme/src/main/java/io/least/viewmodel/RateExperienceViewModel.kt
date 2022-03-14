@@ -25,9 +25,9 @@ class RateExperienceViewModel(
         if (serverConfig.fetchConfigFromServer) {
             _uiState.value = RateExperienceState.ConfigLoading
             viewModelScope.launch {
-                kotlin.runCatching {  }
-                config = repository.fetchRateExperienceConfig()
-                _uiState.value = RateExperienceState.ConfigLoaded(config)
+                kotlin.runCatching { config = repository.fetchRateExperienceConfig() }
+                    .onSuccess { _uiState.value = RateExperienceState.ConfigLoaded(config) }
+                    .onFailure { _uiState.value = RateExperienceState.ConfigLoadFailed }
             }
         } else {
             _uiState.value = RateExperienceState.ConfigLoaded(config)
@@ -61,6 +61,7 @@ sealed class RateExperienceState {
     object ConfigLoading : RateExperienceState()
     class RateSelected(val reaction: String) : RateExperienceState()
     class ConfigLoaded(val config: RateExperienceConfig) : RateExperienceState()
+    object ConfigLoadFailed : RateExperienceState()
     object Submitting : RateExperienceState()
     object SubmissionError : RateExperienceState()
     object SubmissionSuccess : RateExperienceState()

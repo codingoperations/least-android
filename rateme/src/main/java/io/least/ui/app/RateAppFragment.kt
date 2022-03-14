@@ -14,7 +14,7 @@ import androidx.lifecycle.*
 import io.least.connector.Connector
 import io.least.core.createWithFactory
 import io.least.rate.R
-import io.least.rate.databinding.FragmentRatemeAppBinding
+import io.least.rate.databinding.RateAppFragmentBinding
 import io.least.ui.showKeyboard
 import io.least.viewmodel.RateMeConfig
 import io.least.viewmodel.RateMeUiState
@@ -47,7 +47,7 @@ class RateAppFragment(
         }
     }
 
-    private var _binding: FragmentRatemeAppBinding? = null
+    private var _binding: RateAppFragmentBinding? = null
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
@@ -72,14 +72,14 @@ class RateAppFragment(
                     // New value received
                     when (uiState) {
                         is RateMeUiState.Initial -> {
-                            binding.textViewHeader.text = getText(R.string.header_initial)
+                            binding.textViewHeader.text = getText(R.string.rate_header_initial)
                         }
                         is RateMeUiState.NegativeSubmitted -> {
                             binding.groupStageAsk.visibility = View.GONE
                             binding.groupStageNegativeFeedback.visibility = View.VISIBLE
                             binding.groupStagePositiveFeedback.visibility = View.GONE
                             binding.textViewHeader.text =
-                                getText(R.string.header_negative_submitted)
+                                getText(R.string.rate_header_negative_submitted)
                             binding.editFeedback.requestFocus()
                             showKeyboard(binding.editFeedback)
                         }
@@ -87,7 +87,7 @@ class RateAppFragment(
                             binding.groupStageAsk.visibility = View.GONE
                             binding.groupStageNegativeFeedback.visibility = View.GONE
                             binding.groupStagePositiveFeedback.visibility = View.VISIBLE
-                            binding.textViewHeader.text = getText(R.string.open_market)
+                            binding.textViewHeader.text = getText(R.string.rate_open_market)
                         }
                     }
                 }
@@ -100,7 +100,7 @@ class RateAppFragment(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRatemeAppBinding.inflate(inflater, container, false)
+        _binding = RateAppFragmentBinding.inflate(inflater, container, false)
         binding.ratingBar.setOnRatingBarChangeListener { _, rating, fromUser ->
             if (!fromUser) return@setOnRatingBarChangeListener
             // TODO Could requireActivity() throw an exception?
