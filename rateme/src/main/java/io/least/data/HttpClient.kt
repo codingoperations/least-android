@@ -8,9 +8,9 @@ import retrofit2.http.POST
 
 interface HttpClient {
 
-    @GET("/rating/v1/config")
+    @GET("/v1/rating/config")
     suspend fun fetchRateExperienceConfig(): Response<RateExperienceConfig>
 
-    @POST("/rating/v1/user_rating")
+    @POST("/v1/rating/user_rating")
     suspend fun publishResult(@Body result: GenericPayload<RateExperienceResult>): Response<Unit>
 }
