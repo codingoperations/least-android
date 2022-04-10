@@ -12,7 +12,7 @@
         android:id="@+id/imageViewCar"
         android:layout_width="128dp"
         android:layout_height="128dp"
-        android:src="@mipmap/img1"
+        android:src="@mipmap/ic_launcher"
         app:layout_constraintEnd_toStartOf="@id/imageViewDriver"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -21,7 +21,7 @@
         android:id="@+id/imageViewDriver"
         android:layout_width="128dp"
         android:layout_height="128dp"
-        android:src="@mipmap/img2"
+        android:src="@mipmap/ic_launcher_round"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/imageViewCar"
         app:layout_constraintTop_toTopOf="parent" />
