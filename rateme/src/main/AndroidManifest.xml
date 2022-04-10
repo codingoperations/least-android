@@ -2,4 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="io.least.rate">
 
+    <application>
+        <activity
+            android:name="io.least.ui.app.RatemeExpActivity"
+            android:label="RateExp" />
+    </application>
 </manifest>

@@ -38,6 +38,7 @@ class RateExperienceFragment(
             classLoader: ClassLoader,
             rateExperienceConfig: RateExperienceConfig,
             serverConfig: RateExperienceServerConfig,
+            withBackStack: Boolean,
             customView: View? = null,
         ) {
             supportFragmentManager.fragmentFactory = RateExperienceFragmentFactory(
@@ -51,7 +52,7 @@ class RateExperienceFragment(
             )
             supportFragmentManager.beginTransaction()
                 .add(containerId, fragment)
-                .addToBackStack(RateExperienceFragment::class.java.simpleName)
+                .apply { if (withBackStack) addToBackStack(RateExperienceFragment::class.java.simpleName) }
                 .commit()
         }
     }
