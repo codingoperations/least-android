@@ -7,7 +7,7 @@
                 android:right="5dp"
                 android:top="5dp"
                 android:bottom="5dp" />
-            <stroke android:width="1dp" android:color="?colorControlActivated" />
+            <stroke android:width="1dp" android:color="?attr/colorControlActivated" />
             <solid android:color="@android:color/white"/>
         </shape>
     </item>
@@ -18,7 +18,7 @@
                 android:right="5dp"
                 android:top="5dp"
                 android:bottom="5dp" />
-            <stroke android:width="1dp" android:color="?colorControlNormal" />
+            <stroke android:width="1dp" android:color="?attr/colorControlNormal" />
             <solid android:color="#3333"/>
         </shape>
     </item>

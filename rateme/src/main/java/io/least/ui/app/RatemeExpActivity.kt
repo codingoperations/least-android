@@ -39,7 +39,10 @@ class RatemeExpActivity : AppCompatActivity() {
                 postSubmitTitle = "It is post submit Title",
                 postSubmitText = "It is post submit BODY TEXT",
             ),
-            RateExperienceServerConfig("https://codingops-publisher.herokuapp.com", appId = "myAppId", true, false),
+            RateExperienceServerConfig("https://codingops-publisher.herokuapp.com", appId = "myAppId",
+                fetchConfigFromServer = true,
+                autoClosePostSubmission = false
+            ),
             withBackStack = false
 //                View.inflate(requireContext(), R.layout.custom_view, null)
         )
