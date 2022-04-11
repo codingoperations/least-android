@@ -24,6 +24,7 @@ import io.least.viewmodel.RateExperienceViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+
 class RateExperienceFragment(
     private val rateExperienceConfig: RateExperienceConfig,
     private val serverConfig: RateExperienceServerConfig,
@@ -72,13 +73,13 @@ class RateExperienceFragment(
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         // Start a coroutine in the lifecycle scope
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             // repeatOnLifecycle launches the block in a new coroutine every time the
             // lifecycle is in the STARTED state (or above) and cancels it when it's STOPPED.
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 // Trigger the flow and start listening for values.
                 // Note that this happens when lifecycle is STARTED and stops
                 // collecting when the lifecycle is STOPPED
@@ -87,11 +88,15 @@ class RateExperienceFragment(
                     // New value received
                     when (uiState) {
                         is RateExperienceState.ConfigLoaded -> {
-                            binding.viewGroupLoading.visibility = View.GONE
+                            binding.groupLoading.visibility = View.GONE
+                            binding.groupLoaded.visibility = View.VISIBLE
+                            binding.groupFinalLayout.visibility = View.GONE
                             populateView(uiState.config)
                         }
                         RateExperienceState.ConfigLoading -> {
-                            binding.viewGroupLoading.visibility = View.VISIBLE
+                            binding.groupLoading.visibility = View.VISIBLE
+                            binding.groupLoaded.visibility = View.GONE
+                            binding.groupFinalLayout.visibility = View.GONE
                         }
                         is RateExperienceState.RateSelected -> {
                             binding.textViewReaction.text = uiState.reaction
@@ -101,15 +106,20 @@ class RateExperienceFragment(
                             binding.buttonSubmit.isEnabled = true
                         }
                         RateExperienceState.SubmissionSuccess -> {
-                            binding.buttonSubmit.text = getString(R.string.rate_exp_submitted)
-                            binding.buttonSubmit.isEnabled = false
+                            binding.groupLoading.visibility = View.GONE
+                            binding.groupLoaded.visibility = View.GONE
+                            binding.groupFinalLayout.visibility = View.VISIBLE
+                            binding.finalRatingBar.numStars = binding.ratingBar.numStars
+                            binding.finalRatingBar.rating = binding.ratingBar.rating
+                            binding.finalGratitudeText.text = rateExperienceConfig.postSubmitText
+                            activity?.title = rateExperienceConfig.postSubmitTitle
                         }
                         RateExperienceState.Submitting -> {
                             binding.buttonSubmit.text = getString(R.string.rate_exp_submitted)
                             binding.buttonSubmit.isEnabled = false
                         }
                         RateExperienceState.ConfigLoadFailed -> {
-                            // TODO DO something
+                            activity?.finish()
                         }
                     }
                 }
@@ -142,21 +152,23 @@ class RateExperienceFragment(
         binding.ratingBar.numStars = config.numberOfStars
         binding.ratingBar.stepSize = 1f
         config.tags.forEach { tag ->
-            binding.tagGroup.addView(Chip(
-                requireContext()
-            ).apply {
+            val chip = layoutInflater.inflate(R.layout.layout_single_chip, binding.tagGroup, false) as Chip
+            chip.apply {
                 text = tag.text
                 this.tag = tag
                 isCheckable = true
                 isClickable = true
                 isFocusable = true
-            })
+            }
+            binding.tagGroup.addView(chip)
         }
         binding.ratingBar.setOnRatingBarChangeListener { _, rating, fromUser ->
             if (fromUser) {
                 viewModel.onRateSelected(rating)
             }
         }
+        binding.finalGratitudeText.text = config.postSubmitText
+        activity?.title = rateExperienceConfig.title
     }
 
     override fun onDestroyView() {

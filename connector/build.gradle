@@ -56,7 +56,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.codingoperations'
                 artifactId = 'connector'
-                version = 'v0.0.5'
+                version = 'v0.0.6'
             }
         }
     }

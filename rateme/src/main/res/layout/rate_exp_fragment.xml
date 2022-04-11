@@ -3,46 +3,52 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:padding="8dp"
-    android:background="?attr/backgroundColor"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/backgroundColor"
+    android:padding="8dp">
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupLoaded"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="textViewHeader, customViewHolder, ratingBar, textViewReaction, tagGroup, editFeedback, buttonSubmit" />
 
     <TextView
         android:id="@+id/textViewHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAppearance="?android:textAppearanceLarge"
+        app:layout_constraintBottom_toTopOf="@id/customViewHolder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/customViewHolder"
-        android:textAppearance="?android:textAppearanceLarge"
         tools:text="TextView" />
 
     <FrameLayout
         android:id="@+id/customViewHolder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/ratingBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewHeader"
-        app:layout_constraintBottom_toTopOf="@+id/ratingBar"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/textViewHeader" />
 
     <RatingBar
         android:id="@+id/ratingBar"
-        android:stepSize="1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:stepSize="1"
         app:layout_constraintBottom_toTopOf="@+id/textViewReaction"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/customViewHolder" />
 
     <TextView
+        android:id="@+id/textViewReaction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewReaction"
         app:layout_constraintBottom_toTopOf="@+id/tagGroup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,18 +59,18 @@
         android:id="@+id/tagGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/editFeedback"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewReaction"
-        app:layout_constraintBottom_toTopOf="@id/editFeedback"/>
+        app:layout_constraintTop_toBottomOf="@+id/textViewReaction" />
 
     <EditText
-        android:background="@drawable/rate_edittext_drawable"
         android:id="@+id/editFeedback"
-        android:minLines="3"
-        android:maxLines="10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/rate_edittext_drawable"
+        android:maxLines="10"
+        android:minLines="3"
         app:layout_constraintBottom_toTopOf="@+id/buttonSubmit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,21 +88,11 @@
         tools:text="Send the feedback" />
 
     <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupLoading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/viewGroupLoading"
         android:visibility="gone"
-        app:constraint_referenced_ids="loadingBackground, loadingProgressBar" />
-
-    <View
-        android:id="@+id/loadingBackground"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="@android:color/white" />
+        app:constraint_referenced_ids="loadingProgressBar" />
 
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/loadingProgressBar"
@@ -107,5 +103,38 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupFinalLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        app:constraint_referenced_ids="finalGratitudeText, finalRatingBar"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp" />
+
+    <TextView
+        android:id="@+id/finalGratitudeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thank you for your feedback!"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toTopOf="@id/finalRatingBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RatingBar
+        android:id="@+id/finalRatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:stepSize="1"
+        android:isIndicator="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/finalGratitudeText" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

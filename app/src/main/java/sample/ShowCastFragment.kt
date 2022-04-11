@@ -31,7 +31,7 @@ class ShowCastFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSampleShowcaseBinding.inflate(inflater, container, false)
         binding.buttonRateApp.setOnClickListener {
             RateAppFragment.show(
@@ -44,25 +44,6 @@ class ShowCastFragment : Fragment() {
         
         binding.buttonRateExperience.setOnClickListener {
             RatemeExpActivity.startActivity(requireActivity())
-//            RateExperienceFragment.show(
-//                parentFragmentManager,
-//                R.id.fragmentContainer,
-//                requireActivity().classLoader,
-//                RateExperienceConfig(
-//                    tags = listOf(Tag("id1", "tag1"), Tag("id2", "tag2"), Tag("id3", "tag3")),
-//                    numberOfStars = 10,
-//                    valueReaction = listOf(
-//                        LabelValue(1, "too bad :("),
-//                        LabelValue(2, "Nice ;)"),
-//                        LabelValue(8, "Great!")
-//                    ),
-//                    title = "MY TITLE",
-//                    postSubmitTitle = "It is post submit Title",
-//                    postSubmitText = "It is post submit BODY TEXT",
-//                ),
-//                RateExperienceServerConfig("https://codingops-publisher.herokuapp.com",appId = "myAppId", true, false),
-//                View.inflate(requireContext(), R.layout.custom_view, null)
-//            )
         }
         binding.buttonCaseManagement.setOnClickListener {
             CaseListFragment.show(
