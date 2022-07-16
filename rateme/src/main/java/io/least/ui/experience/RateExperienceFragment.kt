@@ -14,7 +14,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.chip.Chip
 import io.least.ServiceLocator
-import io.least.collector.DeviceDataCollector
+import io.least.core.collector.DeviceDataCollector
+import io.least.core.collector.UserSpecificContext
+import io.least.core.ServerConfig
 import io.least.core.createWithFactory
 import io.least.data.*
 import io.least.rate.R
@@ -26,8 +28,9 @@ import kotlinx.coroutines.launch
 
 
 class RateExperienceFragment(
-    private val rateExperienceConfig: RateExperienceConfig,
-    private val serverConfig: RateExperienceServerConfig,
+    private val rateExperienceConfig: RateExperienceConfig?,
+    private val serverConfig: ServerConfig,
+    private val usersContext: UserSpecificContext,
     private val customView: View?,
 ) : Fragment() {
 
@@ -38,13 +41,15 @@ class RateExperienceFragment(
             @IdRes containerId: Int,
             classLoader: ClassLoader,
             rateExperienceConfig: RateExperienceConfig,
-            serverConfig: RateExperienceServerConfig,
+            serverConfig: ServerConfig,
             withBackStack: Boolean,
+            usersContext: UserSpecificContext,
             customView: View? = null,
         ) {
             supportFragmentManager.fragmentFactory = RateExperienceFragmentFactory(
                 rateExperienceConfig,
                 serverConfig,
+                usersContext,
                 customView
             )
             val fragment = supportFragmentManager.fragmentFactory.instantiate(
@@ -67,8 +72,8 @@ class RateExperienceFragment(
         createWithFactory {
             RateExperienceViewModel(
                 rateExperienceConfig,
-                serverConfig,
-                RateExperienceConfigRepo(serverConfig.appId, ServiceLocator.getHttpClient(serverConfig.hostUrl), DeviceDataCollector())
+                RateExperienceRepository(ServiceLocator.getHttpClient(serverConfig), DeviceDataCollector()),
+                usersContext
             )
         }
     }
@@ -105,14 +110,14 @@ class RateExperienceFragment(
                             binding.buttonSubmit.text = getString(R.string.rate_exp_retry)
                             binding.buttonSubmit.isEnabled = true
                         }
-                        RateExperienceState.SubmissionSuccess -> {
+                        is RateExperienceState.SubmissionSuccess -> {
                             binding.groupLoading.visibility = View.GONE
                             binding.groupLoaded.visibility = View.GONE
                             binding.groupFinalLayout.visibility = View.VISIBLE
                             binding.finalRatingBar.numStars = binding.ratingBar.numStars
                             binding.finalRatingBar.rating = binding.ratingBar.rating
-                            binding.finalGratitudeText.text = rateExperienceConfig.postSubmitText
-                            activity?.title = rateExperienceConfig.postSubmitTitle
+                            binding.finalGratitudeText.text = uiState.config.postSubmitText
+                            activity?.title = uiState.config.postSubmitTitle
                         }
                         RateExperienceState.Submitting -> {
                             binding.buttonSubmit.text = getString(R.string.rate_exp_submitted)
@@ -168,7 +173,7 @@ class RateExperienceFragment(
             }
         }
         binding.finalGratitudeText.text = config.postSubmitText
-        activity?.title = rateExperienceConfig.title
+        activity?.title = config.title
     }
 
     override fun onDestroyView() {

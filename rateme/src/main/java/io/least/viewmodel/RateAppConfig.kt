@@ -4,6 +4,6 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class RateMeConfig(
+data class RateAppConfig(
     val minPositiveRate: Float = 3.0f,
 ): Parcelable

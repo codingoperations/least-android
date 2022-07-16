@@ -18,7 +18,7 @@ class SampleShowCaseActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportFragmentManager.beginTransaction()
-            .add(R.id.fragmentContainer, ShowCastFragment())
+            .add(R.id.fragmentContainer, ShowCaseFragment())
             .commit()
     }
 }

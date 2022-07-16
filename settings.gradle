@@ -3,5 +3,4 @@ include ':case_management'
 include ':app'
 include ':rateme'
 include ':core'
-include ':connector'
 rootProject.name = "RateMe"

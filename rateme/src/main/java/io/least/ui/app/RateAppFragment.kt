@@ -11,12 +11,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.*
-import io.least.connector.Connector
 import io.least.core.createWithFactory
 import io.least.rate.R
 import io.least.rate.databinding.RateAppFragmentBinding
 import io.least.ui.showKeyboard
-import io.least.viewmodel.RateMeConfig
+import io.least.viewmodel.RateAppConfig
 import io.least.viewmodel.RateMeUiState
 import io.least.viewmodel.RateMeViewModel
 import kotlinx.coroutines.flow.collect
@@ -26,8 +25,8 @@ import kotlinx.coroutines.launch
 private const val TAG = "RateMeFragment"
 
 class RateAppFragment(
-    private val config: RateMeConfig,
-    private val connector: Connector<String>?
+    private val config: RateAppConfig,
+//    private val connector: Connector<String>?
 ) : DialogFragment() {
 
     companion object {
@@ -35,10 +34,13 @@ class RateAppFragment(
         fun show(
             supportFragmentManager: FragmentManager,
             classLoader: ClassLoader,
-            connector: Connector<String>?,
-            config: RateMeConfig
+//            connector: Connector<String>?,
+            config: RateAppConfig
         ) {
-            supportFragmentManager.fragmentFactory = RatemeFragmentFactory(config, connector)
+            supportFragmentManager.fragmentFactory = RatemeFragmentFactory(
+                config,
+//                connector
+            )
             val fragment: DialogFragment = supportFragmentManager.fragmentFactory.instantiate(
                 classLoader,
                 RateAppFragment::class.java.name
@@ -54,7 +56,10 @@ class RateAppFragment(
 
     private val viewModel: RateMeViewModel by viewModels {
         createWithFactory {
-            RateMeViewModel(config, connector)
+            RateMeViewModel(
+                config,
+//                connector
+            )
         }
     }
 

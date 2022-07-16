@@ -1,11 +1,12 @@
 package io.least
 
+import io.least.core.ServerConfig
 import io.least.core.ServiceLocator
 import io.least.data.HttpClient
 
 object ServiceLocator {
 
-    fun getHttpClient(hostUrl: String): HttpClient {
-          return ServiceLocator.retrofitInstance(hostUrl).create(HttpClient::class.java)
+    fun getHttpClient(config: ServerConfig): HttpClient {
+        return ServiceLocator.retrofitInstance(config).create(HttpClient::class.java)
     }
 }

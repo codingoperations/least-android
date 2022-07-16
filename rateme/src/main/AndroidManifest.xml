@@ -4,7 +4,7 @@
 
     <application>
         <activity
-            android:name="io.least.ui.app.RatemeExpActivity"
+            android:name="io.least.ui.app.RateExpActivity"
             android:label="RateExp"
             android:theme="@style/Theme.RateMe"/>
     </application>

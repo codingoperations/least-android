@@ -10,16 +10,23 @@ import retrofit2.Retrofit
 
 
 object ServiceLocator {
-    private val logging = HttpLoggingInterceptor().apply{ this.setLevel(HttpLoggingInterceptor.Level.BODY) }
-    private val client = OkHttpClient.Builder().addInterceptor(logging).build()
+    private val logging =
+        HttpLoggingInterceptor().apply { this.setLevel(HttpLoggingInterceptor.Level.BODY) }
+    private val clientBuilder = OkHttpClient.Builder().addInterceptor(logging)
 
+
+    private val json = Json { ignoreUnknownKeys = true }
 
     @OptIn(ExperimentalSerializationApi::class)
-    fun retrofitInstance(hostUrl: String = "http://codingops-publisher.herokuapp.com"): Retrofit {
+    fun retrofitInstance(config: ServerConfig): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(hostUrl)
-            .addConverterFactory(Json { ignoreUnknownKeys = true }.asConverterFactory("application/json".toMediaType()))
-            .client(client)
+            .baseUrl(config.hostUrl)
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .client(clientBuilder.addNetworkInterceptor {
+                val requestBuilder = it.request().newBuilder()
+                requestBuilder.header("x-rate-exp", config.apiToken)
+                it.proceed(requestBuilder.build());
+            }.build())
             .build()
     }
 }

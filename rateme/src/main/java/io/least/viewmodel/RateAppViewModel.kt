@@ -4,13 +4,12 @@ import android.app.Activity
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.google.android.play.core.review.ReviewManagerFactory
-import io.least.connector.Connector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 class RateMeViewModel (
-    private val config: RateMeConfig,
-    private val connector: Connector<String>?
+    private val config: RateAppConfig,
+//    private val connector: Connector<String>?
 ): ViewModel() {
 
     // Backing property to avoid state updates from other classes
@@ -20,7 +19,7 @@ class RateMeViewModel (
     val uiState: StateFlow<RateMeUiState> = _uiState
 
     fun onFeedbackSubmit(text: String) {
-        connector?.create(text)
+//        connector?.create(text)
     }
     fun onNotNow() {}
     fun onNeverAskAgain() {}

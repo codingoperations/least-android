@@ -7,20 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import io.least.case_management.ui.cases.CaseListFragment
 import io.least.case_management.viewmodel.CaseListConfig
-import io.least.collector.DeviceDataCollector
-import io.least.connector.RestConnector
-import io.least.data.LabelValue
-import io.least.data.RateExperienceConfig
-import io.least.data.RateExperienceServerConfig
-import io.least.data.Tag
 import io.least.ui.app.RateAppFragment
-import io.least.ui.app.RatemeExpActivity
-import io.least.ui.experience.RateExperienceFragment
-import io.least.viewmodel.RateMeConfig
+import io.least.ui.app.RateExpActivity
+import io.least.viewmodel.RateAppConfig
 import io.sample.R
 import io.sample.databinding.FragmentSampleShowcaseBinding
 
-class ShowCastFragment : Fragment() {
+class ShowCaseFragment : Fragment() {
 
     private var _binding: FragmentSampleShowcaseBinding? = null
 
@@ -37,13 +30,13 @@ class ShowCastFragment : Fragment() {
             RateAppFragment.show(
                 parentFragmentManager,
                 requireActivity().classLoader,
-                RestConnector(DeviceDataCollector(), ""),
-                RateMeConfig(minPositiveRate = 3.0f)
+//                RestConnector(DeviceDataCollector(), ""),
+                RateAppConfig(minPositiveRate = 3.0f)
             )
         }
         
         binding.buttonRateExperience.setOnClickListener {
-            RatemeExpActivity.startActivity(requireActivity())
+            RateExpActivity.startActivity(requireActivity())
         }
         binding.buttonCaseManagement.setOnClickListener {
             CaseListFragment.show(

@@ -1,6 +1,7 @@
 package io.least.case_management
 
 import io.least.case_management.data.CaseListRepository
+import io.least.core.ServerConfig
 import io.least.core.ServiceLocator
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
 
@@ -17,6 +18,6 @@ object ServiceLocator {
 
 
     fun getCaseListRepository(hostUrl: String): CaseListRepository {
-        return ServiceLocator.retrofitInstance(hostUrl).create(CaseListRepository::class.java)
+        return ServiceLocator.retrofitInstance(ServerConfig(hostUrl, "")).create(CaseListRepository::class.java)
     }
 }

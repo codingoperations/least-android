@@ -1,12 +1,12 @@
 package io.least.data
 
 import android.util.Log
-import io.least.collector.DeviceDataCollector
+import io.least.core.collector.DeviceDataCollector
+import io.least.rate.BuildConfig
 
-class RateExperienceConfigRepo(
-    private val appId: String,
+class RateExperienceRepository(
     private val httpClient: HttpClient,
-    private val dataCollector: DeviceDataCollector<RateExperienceResult>
+    private val dataCollector: DeviceDataCollector
 ) {
 
     suspend fun fetchRateExperienceConfig(): RateExperienceConfig {
@@ -21,7 +21,7 @@ class RateExperienceConfigRepo(
     }
 
     suspend fun publishRateResults(result: RateExperienceResult) {
-        val finalPayload = dataCollector.collect(result)
-        httpClient.publishResult(finalPayload)
+        result.commonContext = dataCollector.collect(BuildConfig.VERSION_NAME)
+        httpClient.publishResult(result)
     }
 }
