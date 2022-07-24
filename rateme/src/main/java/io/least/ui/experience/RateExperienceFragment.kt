@@ -40,7 +40,7 @@ class RateExperienceFragment(
             supportFragmentManager: FragmentManager,
             @IdRes containerId: Int,
             classLoader: ClassLoader,
-            rateExperienceConfig: RateExperienceConfig,
+            rateExperienceConfig: RateExperienceConfig?,
             serverConfig: ServerConfig,
             withBackStack: Boolean,
             usersContext: UserSpecificContext,

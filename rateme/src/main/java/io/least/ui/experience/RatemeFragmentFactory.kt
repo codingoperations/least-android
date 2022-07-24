@@ -9,7 +9,7 @@ import io.least.core.ServerConfig
 import io.least.data.RateExperienceConfig
 
 class RateExperienceFragmentFactory(
-    private val config: RateExperienceConfig,
+    private val config: RateExperienceConfig?,
     private val serverConfig: ServerConfig,
     private val usersContext: UserSpecificContext,
     private val customView: View?
