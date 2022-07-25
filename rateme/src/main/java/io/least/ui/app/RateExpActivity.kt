@@ -30,22 +30,22 @@ class RateExpActivity : AppCompatActivity() {
             supportFragmentManager,
             R.id.fragmentContainer,
             this.classLoader,
-            RateExperienceConfig(
-                tags = listOf(Tag("id1", "tag1"), Tag("id2", "tag2"), Tag("id3", "tag3")),
-                numberOfStars = 6,
-                valueReaction = listOf(
-                    LabelValue(1, "too bad :("),
-                    LabelValue(2, "Nice ;)"),
-                    LabelValue(8, "Great!")
-                ),
-                title = "MY TITLE",
-                postSubmitTitle = "It is post submit Title",
-                postSubmitText = "It is post submit BODY TEXT",
-            ),
-//            null,
+//            RateExperienceConfig(
+//                tags = listOf(Tag("id1", "tag1"), Tag("id2", "tag2"), Tag("id3", "tag3")),
+//                numberOfStars = 6,
+//                valueReaction = listOf(
+//                    LabelValue(1, "too bad :("),
+//                    LabelValue(2, "Nice ;)"),
+//                    LabelValue(8, "Great!")
+//                ),
+//                title = "MY TITLE",
+//                postSubmitTitle = "It is post submit Title",
+//                postSubmitText = "It is post submit BODY TEXT",
+//            ),
+            null,
             ServerConfig(
-                hostUrl = "http://54.202.190.24:8080",
-                apiToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDMzMTUxNDgsInBheWxvYWQiOnsidXNlcklkIjoiNjJjMjU2NzE1ZjRiZjJlODE5N2Q0NTRmIiwicHJvamVjdE5hbWUiOiJhYSJ9LCJpYXQiOjE2NTY5MTUxNDh9.YQ3oOPirga8ZLehWMBxq27LhjriYLGaj_fWNXRhS7ks"
+                hostUrl = "https://least-service.herokuapp.com/",
+                apiToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDQ2ODQ4MjYsInBheWxvYWQiOnsidXNlcklkIjoiNjJjMjU2NzE1ZjRiZjJlODE5N2Q0NTRmIiwicHJvamVjdE5hbWUiOiJhYSJ9LCJpYXQiOjE2NTgyODQ4MjZ9.pzAu6pYWaW7D7STzE6q55NJHOwSs_GorgunNSfUal0E"
             ),
             withBackStack = false,
             usersContext = UserSpecificContext("bkodirov1986@gmail.com"),

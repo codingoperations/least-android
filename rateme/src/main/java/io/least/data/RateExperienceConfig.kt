@@ -14,7 +14,7 @@ data class Tag(val id: String, val text: String) : Parcelable
 data class RateExperienceConfig(
     val tags: List<Tag>,
     val numberOfStars: Int,
-    val valueReaction: List<LabelValue>,
+    val valueReactions: List<LabelValue>,
     val title: String,
     val postSubmitTitle: String,
     val postSubmitText: String,

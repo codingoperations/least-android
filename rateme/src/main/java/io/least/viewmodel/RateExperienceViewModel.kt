@@ -32,7 +32,10 @@ class RateExperienceViewModel(
                         _uiState.value = RateExperienceState.ConfigLoaded(it)
                         config = it
                     }
-                    .onFailure { _uiState.value = RateExperienceState.ConfigLoadFailed }
+                    .onFailure {
+                        Log.e(this.javaClass.simpleName,"Failed to fetch config: ${Log.getStackTraceString(it)}")
+                        _uiState.value = RateExperienceState.ConfigLoadFailed
+                    }
             }
         }
     }
@@ -62,7 +65,7 @@ class RateExperienceViewModel(
 
     fun onRateSelected(rating: Float) {
         config?.let {
-            for (it in it.valueReaction) {
+            for (it in it.valueReactions) {
                 if (rating.toInt() <= it.value) {
                     _uiState.value = RateExperienceState.RateSelected(it.label)
                     break
