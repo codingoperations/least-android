@@ -40,14 +40,14 @@ class RateExperienceFragment(
             supportFragmentManager: FragmentManager,
             @IdRes containerId: Int,
             classLoader: ClassLoader,
-            rateExperienceConfig: RateExperienceConfig,
+            rateExperienceConfig: RateExperienceConfig?,
             serverConfig: ServerConfig,
             withBackStack: Boolean,
             usersContext: UserSpecificContext,
             customView: View? = null,
         ) {
             supportFragmentManager.fragmentFactory = RateExperienceFragmentFactory(
-                rateExperienceConfig,
+                rateExperienceConfig!!,
                 serverConfig,
                 usersContext,
                 customView

@@ -6,9 +6,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import io.least.core.collector.UserSpecificContext
 import io.least.core.ServerConfig
-import io.least.data.LabelValue
-import io.least.data.RateExperienceConfig
-import io.least.data.Tag
 import io.least.rate.R
 import io.least.rate.databinding.ActivityRatemeExpBinding
 import io.least.ui.experience.RateExperienceFragment
@@ -28,21 +25,13 @@ class RateExpActivity : AppCompatActivity() {
             supportFragmentManager,
             R.id.fragmentContainer,
             this.classLoader,
-            RateExperienceConfig(
-                tags = listOf(Tag("id1", "tag1"), Tag("id2", "tag2"), Tag("id3", "tag3")),
-                numberOfStars = 6,
-                valueReaction = listOf(
-                    LabelValue(1, "too bad :("),
-                    LabelValue(2, "Nice ;)"),
-                    LabelValue(8, "Great!")
-                ),
-                title = "MY TITLE",
-                postSubmitTitle = "It is post submit Title",
-                postSubmitText = "It is post submit BODY TEXT",
-            ),
+
+            null,
+
+            // TODO change token and host
             ServerConfig(
-                hostUrl = "https://codingops-publisher.herokuapp.com",
-                apiToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDMzMTUxNDgsInBheWxvYWQiOnsidXNlcklkIjoiNjJjMjU2NzE1ZjRiZjJlODE5N2Q0NTRmIiwicHJvamVjdE5hbWUiOiJhYSJ9LCJpYXQiOjE2NTY5MTUxNDh9.YQ3oOPirga8ZLehWMBxq27LhjriYLGaj_fWNXRhS7ks"
+                hostUrl = "https://least-service.herokuapp.com",
+                apiToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDMzNzE3NDMsInBheWxvYWQiOnsidXNlcklkIjoiNjJjMzYwNWE2OGE4NTRhMjExZGYxY2RmIiwicHJvamVjdE5hbWUiOiJhYmMifSwiaWF0IjoxNjU2OTcxNzQzfQ.8H5tUz6m8Fm55Py_2xq6cCjDOCc2hm0wvWpdVEEPyV0"
             ),
             withBackStack = false,
             usersContext = UserSpecificContext("bkodirov1986@gmail.com"),
